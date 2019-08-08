@@ -1,5 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
+
 import { ConfigProvider } from 'antd'
 // 由于 antd 组件的默认文案是英文，所以需要修改为中文
 import zhCN from 'antd/es/locale/zh_CN'
@@ -14,7 +16,9 @@ moment.locale('zh-cn')
 
 ReactDOM.render(
 	<ConfigProvider locale={zhCN}>
-		<App />
+		<Router>
+			<App />
+		</Router>
 	</ConfigProvider>,
 	document.getElementById('root')
 )
