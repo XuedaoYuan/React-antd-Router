@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 const { Title } = Typography
 class Index extends Component {
 	handleEdit = () => {
-		this.props.history.push('/home/index/edit')
+		this.props.history.push('/app/home/index/edit')
 	}
 	render() {
 		return (

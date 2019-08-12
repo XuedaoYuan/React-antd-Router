@@ -3,37 +3,39 @@ import Index from '../pages/Index'
 import Edit from '../pages/Index/edit'
 const routeConfig = [
 	{
-		path: '/home',
+		path: '/app/home',
 		breadcrumbName: 'Home',
 		children: [
 			{
-				path: '/index',
+				path: '/app/home/index',
 				breadcrumbName: '首页',
-				component: Index
+				component: Index,
+				children: [
+					{
+						path: '/app/home/index/edit',
+						breadcrumbName: '编辑',
+						component: Edit,
+						hidden: true
+					}
+				]
 			},
 			{
-				path: '/index/edit',
-				breadcrumbName: '编辑',
-				component: Edit,
-				hidden: true
-			},
-			{
-				path: '/test',
+				path: '/app/home/test',
 				breadcrumbName: '测试',
 				component: Test
 			}
 		]
 	},
 	{
-		path: '/sub2',
+		path: '/app/sub2',
 		breadcrumbName: 'sub2',
 		children: [
 			{
-				path: '/user',
+				path: '/app/sub2/user',
 				breadcrumbName: '用户'
 			},
 			{
-				path: '/permission',
+				path: '/app/sub2/permission',
 				breadcrumbName: '权限'
 			}
 		]

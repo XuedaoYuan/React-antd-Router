@@ -1,38 +1,56 @@
 import React from 'react'
 import './App.css'
-import { Redirect, Route, Link, withRouter } from 'react-router-dom'
+import { Redirect, Switch, Route, Link, withRouter } from 'react-router-dom'
 import { Layout, Menu, Breadcrumb, Icon } from 'antd'
-
 import Time from './components/Time'
 import routeConfig from './router/routeConfig'
+
+import Index from './pages/Index'
+import Test from './pages/Test'
+import Edit from './pages/Index/edit'
 const { Header, Footer, Sider, Content } = Layout
 const { SubMenu } = Menu
 
 const breadcrumbNameMap = {
-	'/home': 'Home',
+	/* 	'/home': 'Home',
 	'/home/index': '首页',
 	'/home/index/edit': '编辑',
 	'/home/test': '测试',
 	'/sub2': 'Sub2',
 	'/sub2/user': '用户',
-	'/sub2/permission': '权限'
+	'/sub2/permission': '权限' */
 }
+
+// 扁平化路由设置
+let flattenRoutes = []
+function recurseArrayToFlatten(routes) {
+	for (let i = 0, len = routes.length; i < len; i++) {
+		const route = routes[i]
+		flattenRoutes.push(route)
+		breadcrumbNameMap[route.path] = route.breadcrumbName
+		if (routes[i].children) {
+			recurseArrayToFlatten(routes[i].children)
+		}
+	}
+}
+recurseArrayToFlatten(routeConfig)
+console.log('flattenRoutes', flattenRoutes)
 
 class App extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {}
 	}
-	itemRender = (route, params, routes, paths) => {
-		debugger
-		const last = routes.indexOf(route) === routes.length - 1
-		return last ? <span>{route.breadcrumbName}</span> : <Link to={paths.join('/')}>{route.breadcrumbName}</Link>
-	}
+
 	render() {
 		console.log(this.props)
 		const { location } = this.props
 		const pathSnippets = location.pathname.split('/').filter(i => i)
+		console.log(pathSnippets)
 		const extraBreadcrumbItems = pathSnippets.map((_, index) => {
+			if (index === 0) {
+				return null
+			}
 			const url = `/${pathSnippets.slice(0, index + 1).join('/')}`
 			return (
 				<Breadcrumb.Item key={url}>
@@ -76,7 +94,7 @@ class App extends React.Component {
 												}
 												return (
 													<Menu.Item key={child.path}>
-														<Link to={route.path + child.path}>{child.breadcrumbName}</Link>
+														<Link to={child.path}>{child.breadcrumbName}</Link>
 													</Menu.Item>
 												)
 											})}
@@ -97,36 +115,29 @@ class App extends React.Component {
 									minHeight: 280
 								}}
 							>
-								<Redirect from="/home" to="/home/index" />
-								{routeConfig.map(route => {
-									return (
-										<Route exact path={route.path} key={route.path}>
-											{route.children.map(subRoute => {
-												return (
-													<Route
-														exact
-														path={route.path + subRoute.path}
-														key={route.path + subRoute.path}
-														render={props => {
-															if (subRoute.component) {
-																return <subRoute.component {...props} />
-															}
-															return <div>{subRoute.breadcrumbName}</div>
-														}}
-													/>
-												)
-											})}
-										</Route>
-									)
-								})}
-								{/* 	<Route exact path="/index" name="index" breadcrumbName="首页" component={Index} />
-								<Route exact path="/test" name="test" breadcrumbName="测试" component={Test} />
-								<Route
-									path="/sub2/user"
-									name="user"
-									breadcrumbName="用户"
-									render={() => <div>用户</div>}
-								/> */}
+								<Switch>
+									{/* <Redirect from="/app" to="/app/home/index" /> */}
+									<Route path="/app/home/test" component={Test} />
+									<Route path="/app/home/index/edit" component={Edit} />
+									<Route path="/app/home/index" component={Index} />
+									<Route path="/app/sub2/user" render={() => <div>用户</div>} />
+									<Route path="/app/sub2/permission" render={() => <div>权限</div>} />
+									{/* {flattenRoutes.map(route => {
+										if (route.component) {
+											return (
+												<Route key={route.path} path={route.path} component={route.component} />
+											)
+										} else {
+											return (
+												<Route
+													key={route.path}
+													path={route.path}
+													render={() => <div>{route.breadcrumbName}</div>}
+												/>
+											)
+										}
+									})} */}
+								</Switch>
 							</Content>
 						</Layout>
 					</Layout>

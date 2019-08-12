@@ -9,8 +9,8 @@ class Time extends Component {
 			})
 		}, 1000)
 	}
-	componentWillMount() {
-		if (this.timer) {
+	componentWillUnmount() {
+		if (this && this.timer) {
 			clearInterval(this.timer)
 		}
 	}
