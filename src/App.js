@@ -8,6 +8,7 @@ import routeConfig from './router/routeConfig';
 import Index from './pages/Index';
 import Test from './pages/Test';
 import Edit from './pages/Index/edit';
+import TestRedux from './pages/TestRedux';
 const { Header, Footer, Sider, Content } = Layout;
 const { SubMenu } = Menu;
 
@@ -112,6 +113,7 @@ class App extends React.Component {
 									<Route path="/app/home/test" component={Test} />
 									<Route path="/app/home/index/edit" component={Edit} />
 									<Route path="/app/home/index" component={Index} />
+									<Route path="/app/home/redux-test" component={TestRedux} />
 									<Route path="/app/sub2/user" render={() => <div>用户</div>} />
 									<Route path="/app/sub2/permission" render={() => <div>权限</div>} />
 								</Switch>

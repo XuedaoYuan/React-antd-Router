@@ -1,6 +1,3 @@
-import Test from '../pages/Test'
-import Index from '../pages/Index'
-import Edit from '../pages/Index/edit'
 const routeConfig = [
 	{
 		path: '/app/home',
@@ -9,12 +6,10 @@ const routeConfig = [
 			{
 				path: '/app/home/index',
 				breadcrumbName: '首页',
-				component: Index,
 				children: [
 					{
 						path: '/app/home/index/edit',
 						breadcrumbName: '编辑',
-						component: Edit,
 						hidden: true
 					}
 				]
@@ -22,7 +17,10 @@ const routeConfig = [
 			{
 				path: '/app/home/test',
 				breadcrumbName: '测试',
-				component: Test
+			},
+			{
+				path: '/app/home/redux-test',
+				breadcrumbName: 'redux测试',
 			}
 		]
 	},
@@ -40,6 +38,6 @@ const routeConfig = [
 			}
 		]
 	}
-]
+];
 
-export default routeConfig
+export default routeConfig;
