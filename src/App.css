@@ -22,3 +22,13 @@
 	margin: 0;
 	overflow-y: scroll;
 }
+
+.xd-time-class {
+	float: left;
+}
+
+.username__container {
+	float: right;
+	padding-right: 24px;
+	color: #fff;
+}

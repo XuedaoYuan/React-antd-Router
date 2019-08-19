@@ -5,7 +5,6 @@ import { compose } from 'redux';
 import { addOne, addAsync } from '../../redux/actions/count_actions';
 import { Button, Divider } from 'antd';
 
-console.log('connect', connect);
 class TestRedux extends Component {
 	render() {
 		return (
@@ -15,7 +14,7 @@ class TestRedux extends Component {
 					<Button type="primary" onClick={this.props.handleAddOne}>
 						add 1
 					</Button>
-					<Divider type="vertical"  />
+					<Divider type="vertical" />
 					<Button type="primary" onClick={this.props.hanleAddAsync}>
 						add async
 					</Button>

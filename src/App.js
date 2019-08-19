@@ -4,7 +4,9 @@ import { Redirect, Switch, Route, Link, withRouter } from 'react-router-dom';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import Time from './components/Time';
 import routeConfig from './router/routeConfig';
-
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { setUserinfo } from './redux/actions/user_actions';
 import Index from './pages/Index';
 import Test from './pages/Test';
 import Edit from './pages/Index/edit';
@@ -42,7 +44,12 @@ class App extends React.Component {
 		super(props);
 		this.state = {};
 	}
-
+	componentDidMount() {
+		const username = localStorage.getItem('username');
+		if (username) {
+			this.props.handleSetUsername(username);
+		}
+	}
 	render() {
 		console.log(this.props);
 		const { location } = this.props;
@@ -68,7 +75,8 @@ class App extends React.Component {
 				<Layout className="middle__container">
 					<Header className="header" style={{ padding: 0 }}>
 						<div className="logo">logo</div>
-						<Time />
+						<Time className="xd-time-class" />
+						<div className="username__container">用户：{this.props.username}</div>
 					</Header>
 					<Layout>
 						<Sider width={200} style={{ background: '#fff' }}>
@@ -127,4 +135,22 @@ class App extends React.Component {
 	}
 }
 
-export default withRouter(App);
+function mapStateToProps(state) {
+	return {
+		username: state.User.username
+	};
+}
+
+function mapDispathToProps(dispatch) {
+	return {
+		handleSetUsername: username => dispatch(setUserinfo({ username }))
+	};
+}
+
+export default compose(
+	withRouter,
+	connect(
+		mapStateToProps,
+		mapDispathToProps
+	)
+)(App);

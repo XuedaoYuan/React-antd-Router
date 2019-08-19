@@ -1,19 +1,27 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { setUserinfo } from '../../redux/actions/user_actions';
 import './Login.less';
 
 class Login extends Component {
 	handleSubmit = e => {
 		e.preventDefault();
-		this.props.form.validateFields((err, values) => {
+		const { handleSetUsername } = this.props;
+		this.props.form.validateFields((err, valueMap) => {
 			if (!err) {
-				console.log('Received values of form: ', values);
+				localStorage.setItem('username', valueMap.username);
+				handleSetUsername(valueMap.username);
+				this.props.history.replace('/app/home/index');
+				console.log('Received valueMap of form: ', valueMap);
 			}
 		});
 	};
 	render() {
 		const { getFieldDecorator } = this.props.form;
+
 		return (
 			<div id="xd_components-form-demo-normal-login">
 				<Form onSubmit={this.handleSubmit} className="login-form">
@@ -37,7 +45,7 @@ class Login extends Component {
 						</a>
 						<Button
 							type="primary"
-							onClick={this.handleLogin}
+							onClick={this.handleSubmit}
 							htmlType="submit"
 							className="login-form-button"
 						>
@@ -55,4 +63,15 @@ class Login extends Component {
 }
 
 const LoginForm = Form.create({ name: 'normal_login' })(Login);
-export default withRouter(LoginForm);
+function mapDispathToProps(dispatch) {
+	return {
+		handleSetUsername: username => dispatch(setUserinfo({ username }))
+	};
+}
+export default compose(
+	withRouter,
+	connect(
+		null,
+		mapDispathToProps
+	)
+)(LoginForm);
